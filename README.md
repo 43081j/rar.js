@@ -1,4 +1,4 @@
-rar.js - Pure JavaScript unrar utility/library
+rar.js - JavaScript Unrar Utility
 ===
 
 **rar.js** provides a pure javascript implementation of the rar format, allowing you to extract or manipulate packed data client-side and server-side.
