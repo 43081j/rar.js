@@ -16,6 +16,10 @@
 				   You could iterate over this.files to handle many at once
 				*/
 				var file = RarArchive(this.files[0], function(err) {
+					if(err) {
+						console.log(err);
+						return;
+					}
 					this.entries.forEach(function(val) {
 						var div = document.createElement('div');
 						div.textContent = val.path;

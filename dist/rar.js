@@ -382,7 +382,7 @@
 					return;
 				}
 				var view = new DataView(data);
-				if(view.getString(7) !== '\x52\x61\x72\x21\x1a\x07\x00') {
+				if(view.getString(7, 0, true) !== '\x52\x61\x72\x21\x1a\x07\x00') {
 					if(callback) callback.call(self, 'Invalid RAR archive');
 					return;
 				}
