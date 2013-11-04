@@ -9,6 +9,7 @@ Multiple inputs are supported: AJAX, File API (HTML5) and local disk (NodeJS).
 
 **TODO & Potential Features**
 
+* Large file support (currently the entire file will be in memory when `RarArchive.get` is called)
 * Compression support
 * Encryption support
 * Recognise volumes/split archives
