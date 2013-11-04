@@ -1,0 +1,12 @@
+{
+  "name": "rarjs",
+  "version": "0.0.1",
+  "author": "43081j",
+  "description": "Pure-javascript RAR archive reader using AJAX, File API and local files.",
+  "main": "./dist/rar.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/43081j/rar.js.git"
+  },
+  "license": "MIT"
+}

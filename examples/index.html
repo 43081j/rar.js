@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Test</title>
+	</head>
+	<body>
+		<!-- Make a file input for you to select an archive -->
+		<input type="file">
+		<br>
+		<!-- Include rar.js -->
+		<script src="../dist/rar.js"></script>
+		<script type="text/javascript">
+			document.querySelector('input[type="file"]').onchange = function(e) {
+				/*
+				   Pass the File instance to rar.js
+				   You could iterate over this.files to handle many at once
+				*/
+				var file = RarArchive(this.files[0], function(err) {
+					this.entries.forEach(function(val) {
+						var div = document.createElement('div');
+						div.textContent = val.path;
+						document.body.appendChild(div);
+					});
+				});
+			}
+		</script>
+	</body>
+</html>
