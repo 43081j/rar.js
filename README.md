@@ -7,6 +7,8 @@ Multiple inputs are supported: AJAX, File API (HTML5) and local disk (NodeJS).
 
 **rar.js** makes use of [dataview-extra](https://github.com/43081j/dataview-extra) and [reader.js](https://github.com/43081j/reader.js).
 
+**This is a very new utility/library, please see the list below for what may be missing.**
+
 **TODO & Potential Features**
 
 * Large file support (currently the entire file will be in memory when `RarArchive.get` is called)
