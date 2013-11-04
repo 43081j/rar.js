@@ -1,6 +1,6 @@
 {
   "name": "rarjs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "43081j",
   "description": "Pure-javascript RAR archive reader using AJAX, File API and local files.",
   "main": "./dist/rar.js",
