@@ -20,7 +20,7 @@
     "lint": "tslint -p tsconfig.json",
     "build": "npm run clean && npm run lint && tsc",
     "build:watch": "tsc --watch",
-    "build:browser": "rollup -c",
+    "build:browser": "npm run build && rollup -c",
     "prepack": "npm run build"
   }
 }

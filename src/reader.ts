@@ -16,7 +16,3 @@ export abstract class Reader {
     return new Blob([data], { type: blobType });
   }
 }
-
-export { LocalReader } from './reader/local';
-export { UriReader } from './reader/uri';
-export { NativeFileReader } from './reader/nativeFile';

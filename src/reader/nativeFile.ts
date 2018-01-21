@@ -2,13 +2,11 @@ import { Reader } from '../reader';
 
 export class NativeFileReader extends Reader {
   public file: File;
-  public get size() {
-    return this.file.size;
-  }
 
   constructor(file: File) {
     super();
     this.file = file;
+    this.size = file.size;
   }
 
   public open() {

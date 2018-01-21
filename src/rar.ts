@@ -5,35 +5,40 @@
  * License: MIT, see LICENSE
  */
 
-import {
-  Reader,
-  UriReader,
-  LocalReader,
-  NativeFileReader
-} from './reader';
+import { Reader } from './reader';
+import { UriReader } from './reader/uri';
+import { LocalReader } from './reader/local';
+import { NativeFileReader } from './reader/nativeFile';
 import { RarEntry } from './entry';
 import { RarMethod } from './method';
 import * as util from './util';
 
+export {
+  Reader,
+  UriReader,
+  LocalReader,
+  NativeFileReader
+};
+
+export async function fromFile(file: File) {
+  return fromReader(new NativeFileReader(file));
+}
+
+export async function fromUri(uri: string) {
+  return fromReader(new UriReader(uri));
+}
+
+export async function fromLocal(path: string) {
+  return fromReader(new LocalReader(path));
+}
+
+export async function fromReader(reader: Reader) {
+  const result = new RarArchive(reader);
+  await result.load();
+  return result;
+}
+
 export class RarArchive {
-  public static async fromFile(file: File) {
-    return RarArchive.fromReader(new NativeFileReader(file));
-  }
-
-  public static async fromUri(uri: string) {
-    return RarArchive.fromReader(new UriReader(uri));
-  }
-
-  public static async fromLocal(path: string) {
-    return RarArchive.fromReader(new LocalReader(path));
-  }
-
-  public static async fromReader(reader: Reader) {
-    const result = new RarArchive(reader);
-    await result.load();
-    return result;
-  }
-
   public entries: RarEntry[] = [];
 
   private _reader: Reader;
