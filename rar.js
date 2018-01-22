@@ -1,14 +1,15 @@
 var Rar = (function (exports) {
 'use strict';
 
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+function __awaiter(thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator.throw(value)); } catch (e) { reject(e); } }
         function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
+        step((generator = generator.apply(thisArg, _arguments)).next());
     });
-};
+}
+
 class Reader {
     constructor() {
         this.size = 0;
@@ -24,21 +25,13 @@ class Reader {
     }
 }
 
-var __awaiter$1 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 class UriReader extends Reader {
     constructor(uri) {
         super();
         this.uri = uri;
     }
     open() {
-        return __awaiter$1(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             return fetch(this.uri, {
                 method: 'HEAD'
             }).then((response) => {
@@ -56,7 +49,7 @@ class UriReader extends Reader {
         return;
     }
     read(length, position) {
-        return __awaiter$1(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             return fetch(this.uri, {
                 method: 'GET',
                 headers: {
@@ -72,14 +65,6 @@ class UriReader extends Reader {
     }
 }
 
-var __awaiter$2 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 let fsImport;
 if (typeof require === 'function') {
     fsImport = require('fs');
@@ -90,7 +75,7 @@ class LocalReader extends Reader {
         this.path = path;
     }
     open() {
-        return __awaiter$2(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve, reject) => {
                 fsImport.stat(this.path, (err, stat) => {
                     if (err) {
@@ -110,7 +95,7 @@ class LocalReader extends Reader {
         return;
     }
     read(length, position) {
-        return __awaiter$2(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve, reject) => {
                 fsImport.open(this.path, 'r', (err, fd) => {
                     if (err) {
@@ -234,31 +219,23 @@ function getString(view, length, offset, raw) {
  * 43081j
  * License: MIT, see LICENSE
  */
-var __awaiter$3 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 function fromFile(file) {
-    return __awaiter$3(this, void 0, void 0, function* () {
+    return __awaiter(this, void 0, void 0, function* () {
         return fromReader(new NativeFileReader(file));
     });
 }
 function fromUri(uri) {
-    return __awaiter$3(this, void 0, void 0, function* () {
+    return __awaiter(this, void 0, void 0, function* () {
         return fromReader(new UriReader(uri));
     });
 }
 function fromLocal(path) {
-    return __awaiter$3(this, void 0, void 0, function* () {
+    return __awaiter(this, void 0, void 0, function* () {
         return fromReader(new LocalReader(path));
     });
 }
 function fromReader(reader) {
-    return __awaiter$3(this, void 0, void 0, function* () {
+    return __awaiter(this, void 0, void 0, function* () {
         const result = new RarArchive(reader);
         yield result.load();
         return result;
@@ -274,7 +251,7 @@ class RarArchive {
         return this._loaded;
     }
     load() {
-        return __awaiter$3(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             if (this.loaded) {
                 return;
             }
@@ -320,7 +297,7 @@ class RarArchive {
         });
     }
     get(entry) {
-        return __awaiter$3(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             if (entry.method !== RarMethod.STORE) {
                 throw new Error('Compression is not yet supported');
             }
@@ -348,7 +325,7 @@ class RarArchive {
         return ['MS-DOS', 'OS/2', 'Windows', 'Unix', 'Mac', 'BeOS'][value];
     }
     parseEntry(size, offset) {
-        return __awaiter$3(this, void 0, void 0, function* () {
+        return __awaiter(this, void 0, void 0, function* () {
             const data = yield this._reader.read(size, offset);
             const view = new DataView(data);
             const flags = view.getUint16(3, true);

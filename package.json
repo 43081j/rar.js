@@ -12,6 +12,7 @@
   "devDependencies": {
     "@types/node": "^9.3.0",
     "rollup": "^0.54.0",
+    "rollup-plugin-typescript": "^0.8.1",
     "tslint": "^5.9.1",
     "typescript": "^2.6.2"
   },
@@ -20,7 +21,7 @@
     "lint": "tslint -p tsconfig.json",
     "build": "npm run clean && npm run lint && tsc",
     "build:watch": "tsc --watch",
-    "build:browser": "npm run build && rollup -c",
+    "build:browser": "npm run lint && rollup -c",
     "prepack": "npm run build"
   }
 }
