@@ -12,6 +12,9 @@ export class UriReader extends Reader {
     return fetch(this.uri, {
       method: 'HEAD'
     }).then((response) => {
+      if (!response.ok) {
+        throw new Error('Could not open URI');
+      }
       const length = response.headers.get('Content-Length');
       if (length !== null) {
         this.size = parseInt(length, 10);
