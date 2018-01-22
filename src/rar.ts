@@ -17,7 +17,8 @@ export {
   Reader,
   UriReader,
   LocalReader,
-  NativeFileReader
+  NativeFileReader,
+  RarMethod
 };
 
 export async function fromFile(file: File) {

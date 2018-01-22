@@ -1,15 +1,29 @@
-rar.js - JavaScript Unrar Utility
-===
+# rar.js - JavaScript Unrar Utility
 
 **rar.js** provides a pure javascript implementation of the rar format, allowing you to extract or manipulate packed data client-side and server-side.
 
 Multiple inputs are supported: AJAX, File API (HTML5) and local disk (NodeJS).
 
-**rar.js** makes use of [dataview-extra](https://github.com/43081j/dataview-extra) and [reader.js](https://github.com/43081j/reader.js).
+## Example
 
-**This is a very new utility/library, please see the list below for what may be missing.**
+Using **rar.js** is fairly straight forward.
 
-**TODO & Potential Features**
+```javascript
+Rar.fromLocal('myfile.rar').then((archive) => {
+  // Use archive here
+  console.log(archive.entries);
+});
+
+Rar.fromUri('/test.rar').then((archive) => {
+  // Use archive here
+});
+
+Rar.fromFile(input.files[0]).then((archive) => {
+  // Use archive here
+});
+```
+
+## Unsupported features (TODO)
 
 * Large file support (currently the entire file will be in memory when `RarArchive.get` is called)
 * Decompression support
@@ -17,36 +31,18 @@ Multiple inputs are supported: AJAX, File API (HTML5) and local disk (NodeJS).
 * Recognise volumes/split archives
 * Parse other entries (e.g. comments)
 
-Example
-===
+## Saving files
 
-Using **rar.js** is fairly straight forward.
+By using `RarArchive#get(file)`, you can retrieve a `Blob` of a specified file within the archive.
 
 ```javascript
-var archive = RarArchive(file, function(err) {
-	if(err) {
-		// An error occurred (not a rar, read error, etc)
-		return;
-	}
-	// Use archive
-});
+const file = archive.get(archive.entries[0]);
+const url = URL.createObjectURL(file);
+// Do something with url here
+// like creating an <a> tag with the download attribute set
 ```
 
-In this example, the callback is called when the archive has been opened and validated successfully. If the archive is of an invalid format or cannot be read, an appropriate error will be passed.
-
-Within the callback, `archive.entries` has been populated with the files (note you may use `this.entries` in the callback too).
-
-Each entry is a `RarEntry` instance.
-
-Saving files
-===
-
-By using `RarArchive.get(file, callback)`, you can retrieve a `Blob` of a specified file within the archive.
-
-What you do with this `Blob` is upto you. A common thing to do would be to create an object URL using `URL.createObjectURL(Blob)` and redirect the user to it or create an `<a>` element with the `download` attribute (HTML5) set to the file name.
-
-Split Volumes
-===
+### Split Volumes
 
 When dealing with entries you have retrieved via `RarArchive.get()`, make sure you check the `RarEntry.partial` boolean.
 
@@ -54,29 +50,18 @@ If this boolean is true, sending/saving the `Blob` will result in a partial file
 
 To find out if the file is continued in a previous or next volume, see `RarEntry.continues` and `RarEntry.continuesFrom`.
 
-RarArchive
-===
+## RarArchive
 
-* `RarArchive(options, callback)` If options is a string, it is assumed to be a URL. If it is a File instance, it will be treated as such. `callback` will be called when the archive has been validated and is ready.
-* `RarArchive.entries` An array of `RarEntry` instances contained within this archive
-* `RarArchive.get(RarEntry, callback)` Retrieves the specified `RarEntry` and passed a `Blob` of it to `callback`
+* `Rar.fromFile(file)` where `file` is a HTML5 `File` instance
+* `Rar.fromLocal(path)` where `path` is a string of a local filesystem path
+* `Rar.fromUri(uri)` where `uri` is a string of a URI
 
-When creating an instance of `RarArchive`, the data source is guessed based on data type. If it is a string, it is assumed to be a URL and will be requested over HTTP. If it is a `File` instance, it will be read as one.
+All three of these entrypoints return a `Promise` which resolves to a `RarArchive`.
 
-In the case that you want to specify the type manually or want to read a local file, you must pass it in the options like so:
+* `RarArchive#entries` An array of `RarEntry` instances contained within this archive
+* `RarArchive#get(RarEntry)` Retrieves the specified `RarEntry` resolves a promise with a `Blob`
 
-```
-RarArchive({ type: RarArchive.OPEN_LOCAL, file: 'example/file.txt'}, function() { });
-```
-
-You may use the following constants for `type`:
-
-* `RarArchive.OPEN_LOCAL` for local files (NodeJS only)
-* `RarArchive.OPEN_URI` for HTTP URIs
-* `RarArchive.OPEN_FILE` for File instances
-
-RarEntry Properties
-===
+## RarEntry Properties
 
 * `name` File name
 * `path` File path within the archive, including file name
@@ -97,14 +82,13 @@ RarEntry Properties
 
 The following constants also exist for use with `RarEntry.method`:
 
-* `RarEntry.METHOD_STORE`
-* `RarEntry.METHOD_FASTEST`
-* `RarEntry.METHOD_FAST`
-* `RarEntry.METHOD_NORMAL`
-* `RarEntry.METHOD_GOOD`
-* `RarEntry.METHOD_BEST`
+* `Rar.RarMethod.STORE`
+* `Rar.RarMethod.FASTEST`
+* `Rar.RarMethod.FAST`
+* `Rar.RarMethod.NORMAL`
+* `Rar.RarMethod.GOOD`
+* `Rar.RarMethod.BEST`
 
-License
-===
+## License
 
 MIT

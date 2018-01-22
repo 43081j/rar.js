@@ -35,6 +35,9 @@ class UriReader extends Reader {
             return fetch(this.uri, {
                 method: 'HEAD'
             }).then((response) => {
+                if (!response.ok) {
+                    throw new Error('Could not open URI');
+                }
                 const length = response.headers.get('Content-Length');
                 if (length !== null) {
                     this.size = parseInt(length, 10);
@@ -79,7 +82,7 @@ class LocalReader extends Reader {
             return new Promise((resolve, reject) => {
                 fsImport.stat(this.path, (err, stat) => {
                     if (err) {
-                        reject('Could not read file');
+                        reject(new Error('Could not read file'));
                         return;
                     }
                     this.size = stat.size;
@@ -99,12 +102,12 @@ class LocalReader extends Reader {
             return new Promise((resolve, reject) => {
                 fsImport.open(this.path, 'r', (err, fd) => {
                     if (err) {
-                        reject('Could not open file');
+                        reject(new Error('Could not open file'));
                         return;
                     }
                     fsImport.read(fd, new Buffer(length), 0, length, position, (readErr, _bytesRead, buffer) => {
                         if (readErr) {
-                            reject('Could not read file');
+                            reject(new Error('Could not read file'));
                             return;
                         }
                         const ab = new ArrayBuffer(buffer.length);
@@ -114,7 +117,7 @@ class LocalReader extends Reader {
                         }
                         fsImport.close(fd, (closeErr) => {
                             if (closeErr) {
-                                reject('Could not close file');
+                                reject(new Error('Could not close file'));
                                 return;
                             }
                             resolve(ab);
@@ -149,7 +152,7 @@ class NativeFileReader extends Reader {
                 resolve(fr.result);
             });
             fr.addEventListener('error', () => {
-                reject('File read failed');
+                reject(new Error('File read failed'));
             });
             fr.readAsArrayBuffer(slice);
         });
@@ -177,7 +180,6 @@ class RarEntry {
     }
 }
 
-var RarMethod;
 (function (RarMethod) {
     RarMethod[RarMethod["STORE"] = 48] = "STORE";
     RarMethod[RarMethod["FASTEST"] = 49] = "FASTEST";
@@ -185,7 +187,7 @@ var RarMethod;
     RarMethod[RarMethod["NORMAL"] = 51] = "NORMAL";
     RarMethod[RarMethod["GOOD"] = 52] = "GOOD";
     RarMethod[RarMethod["BEST"] = 53] = "BEST";
-})(RarMethod || (RarMethod = {}));
+})(exports.RarMethod || (exports.RarMethod = {}));
 
 function getString(view, length, offset, raw) {
     offset = offset || 0;
@@ -298,7 +300,7 @@ class RarArchive {
     }
     get(entry) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (entry.method !== RarMethod.STORE) {
+            if (entry.method !== exports.RarMethod.STORE) {
                 throw new Error('Compression is not yet supported');
             }
             const blob = yield this._reader.readBlob(entry.blockSize - 1, entry.offset + entry.headerSize);
