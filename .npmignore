@@ -3,3 +3,5 @@ tslint.json
 src/
 lib/test/
 test/
+.travis.yml
+.editorconfig
