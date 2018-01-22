@@ -19,7 +19,7 @@ export class LocalReader extends Reader {
     return new Promise<void>((resolve, reject) => {
       fsImport.stat(this.path, (err, stat) => {
         if (err) {
-          reject('Could not read file');
+          reject(new Error('Could not read file'));
           return;
         }
 
@@ -41,13 +41,13 @@ export class LocalReader extends Reader {
     return new Promise<ArrayBuffer>((resolve, reject) => {
       fsImport.open(this.path, 'r', (err, fd) => {
         if (err) {
-          reject('Could not open file');
+          reject(new Error('Could not open file'));
           return;
         }
 
         fsImport.read(fd, new Buffer(length), 0, length, position, (readErr, _bytesRead, buffer) => {
           if (readErr) {
-            reject('Could not read file');
+            reject(new Error('Could not read file'));
             return;
           }
 
@@ -60,7 +60,7 @@ export class LocalReader extends Reader {
 
           fsImport.close(fd, (closeErr) => {
             if (closeErr) {
-              reject('Could not close file');
+              reject(new Error('Could not close file'));
               return;
             }
             resolve(ab);

@@ -31,7 +31,7 @@ export class NativeFileReader extends Reader {
       });
 
       fr.addEventListener('error', () => {
-        reject('File read failed');
+        reject(new Error('File read failed'));
       });
 
       fr.readAsArrayBuffer(slice);

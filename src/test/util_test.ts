@@ -17,22 +17,22 @@ suite('util', () => {
 
     test('returns a string from a view', () => {
       const result = util.getString(view);
-      assert.equal('rar', result);
+      assert.equal(result, 'rar');
     });
 
     test('returns a string of given length', () => {
       const result = util.getString(view, 1);
-      assert.equal('r', result);
+      assert.equal(result, 'r');
     });
 
     test('returns a string from offset', () => {
       const result = util.getString(view, undefined, 1);
-      assert.equal('ar', result);
+      assert.equal(result, 'ar');
     });
 
     test('returns a string from an offset, to a length', () => {
       const result = util.getString(view, 1, 1);
-      assert.equal('a', result);
+      assert.equal(result, 'a');
     });
 
     test('can return raw string');
