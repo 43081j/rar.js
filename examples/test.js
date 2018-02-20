@@ -1,7 +1,7 @@
-var RarArchive = require('rarjs');
+var Rar = require('rarjs');
 
-var file = RarArchive({type: RarArchive.OPEN_LOCAL, file: '../build/test.rar'}, function(err) {
-	this.entries.forEach(function(val) {
+Rar.fromLocal('test.rar').then((archive) => {
+	archive.entries.forEach((val) => {
 		console.log(val.path);
 	});
 });
