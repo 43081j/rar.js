@@ -4,7 +4,8 @@ import { UriReader } from '../../reader/uri';
 import * as sinon from 'sinon';
 
 const abToString = (buf: ArrayBuffer) => {
-  return String.fromCharCode.apply(null, new Uint8Array(buf));
+  return String.fromCharCode.apply(null,
+    new Uint8Array(buf) as unknown as number[]);
 };
 
 class MockHeaders {

@@ -27,7 +27,7 @@ export class NativeFileReader extends Reader {
 
     return new Promise<ArrayBuffer>((resolve, reject) => {
       fr.addEventListener('load', () => {
-        resolve(fr.result);
+        resolve(fr.result as ArrayBuffer);
       });
 
       fr.addEventListener('error', () => {
