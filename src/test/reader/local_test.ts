@@ -5,7 +5,8 @@ import * as path from 'path';
 const testFile = path.join(__dirname, '../../../src/test/static/nothing.txt');
 const fakeFile = path.join(__dirname, '../../../src/test/static/doesnt_exist');
 const abToString = (buf: ArrayBuffer) => {
-  return String.fromCharCode.apply(null, new Uint8Array(buf));
+  return String.fromCharCode.apply(null,
+    new Uint8Array(buf) as unknown as number[]);
 };
 
 suite('LocalReader', () => {

@@ -11,7 +11,7 @@ export abstract class Reader {
       blobType = 'application/octet-stream';
     }
 
-    const data = this.read(length, position);
+    const data = await this.read(length, position);
 
     return new Blob([data], { type: blobType });
   }
