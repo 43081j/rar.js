@@ -15,7 +15,7 @@
     "@types/node": "^12.7.8",
     "@types/sinon": "^7.0.13",
     "chai": "^4.2.0",
-    "mocha": "^6.2.1",
+    "mocha": "^10.2.0",
     "rollup": "^1.22.0",
     "rollup-plugin-typescript": "^1.0.1",
     "sinon": "^7.5.0",
